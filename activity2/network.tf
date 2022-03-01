@@ -1,7 +1,8 @@
 resource "aws_vpc" "primary_vpc" {
   cidr_block = "192.168.0.0/16"
   tags = {
-      Name = "primary"
+      Name = "primary",
+      Env = terraform.workspace
   }
 }
 
@@ -14,7 +15,8 @@ resource "aws_subnet" "subnets" {
   cidr_block = var.subnet_cidrs[count.index]
 
   tags = {
-      Name = var.subnet_names[count.index]
+      Name = var.subnet_names[count.index],
+      Env = terraform.workspace
   }
 }
 
@@ -112,7 +114,8 @@ resource "aws_route_table" "public_rt" {
 resource "aws_route_table" "private_rt" {
   vpc_id      = aws_vpc.primary_vpc.id
   tags        = {
-    Name      = "private"
+    Name      = "private",
+    Env = terraform.workspace
   }
 
 }
